@@ -94,7 +94,16 @@ struct HomeView: View {
                 
                 
                 //Activity
-                ActivityCard()
+                LazyVGrid(columns: Array(repeating: GridItem(spacing: 20), count: 2)) {
+                    
+                    ActivityCard()
+                    ActivityCard()
+                    ActivityCard()
+                    ActivityCard()
+                    
+                }
+                .padding(.horizontal)
+                
                 
             }
         }

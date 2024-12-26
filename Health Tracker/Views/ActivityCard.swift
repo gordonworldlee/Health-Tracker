@@ -19,6 +19,7 @@ struct ActivityCard: View {
                         Text("Today Steps")
                         
                         Text("Goal 10,000")
+                            .font(.caption)
                     }
                     Spacer()
                     Image(systemName: "figure.walk")
