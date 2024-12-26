@@ -6,6 +6,9 @@ xcuserdata/
 
 # Firebase
 GoogleService-Info.plist
+Health Tracker.xcodeproj/
+Health-Tracker-Info.plist
+
 
 # Build
 build/
