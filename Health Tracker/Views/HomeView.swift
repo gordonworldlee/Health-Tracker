@@ -70,6 +70,24 @@ struct HomeView: View {
                 }
                 .padding()
                 
+                HStack {
+                    Text("Fitness Activity")
+                        .font(.title2)
+                    
+                    Spacer()
+                    
+                    Button {
+                        print("show more")
+                    } label: {
+                        Text("Show more")
+                            .padding(.all, 10)
+                            .foregroundColor(.white)
+                            .background(.blue)
+                            .cornerRadius(20)
+                    }
+                }
+                .padding(.horizontal)
+                
             }
         }
         
