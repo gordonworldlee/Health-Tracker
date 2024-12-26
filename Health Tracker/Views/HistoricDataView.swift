@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HistoricDataView: View {
     var body: some View {
-        Text("Data View")
+        Text("First Branch is updated")
     }
 }
 
