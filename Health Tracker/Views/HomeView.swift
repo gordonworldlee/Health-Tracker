@@ -18,6 +18,9 @@ struct HomeView: View {
                 Text("Welcome")
                     .font(.largeTitle)
                     .padding()
+                
+                
+                //Activity Rings and information
                 HStack {
                     
                     Spacer()
@@ -70,6 +73,7 @@ struct HomeView: View {
                 }
                 .padding()
                 
+                //FItness activity button
                 HStack {
                     Text("Fitness Activity")
                         .font(.title2)
@@ -87,6 +91,10 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal)
+                
+                
+                //Activity
+                ActivityCard()
                 
             }
         }

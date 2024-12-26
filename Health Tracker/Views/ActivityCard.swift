@@ -24,7 +24,13 @@ struct ActivityCard: View {
                     Image(systemName: "figure.walk")
                         .foregroundColor(.green)
                 }
+                
+                Text("6,123")
+                    .font(.title)
+                    .bold()
+                    .padding()
             }
+            .padding()
         }
     }
 }
