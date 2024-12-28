@@ -34,6 +34,8 @@ struct ActivityCard: View {
                     .font(.title)
                     .bold()
                     .padding()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             }
             .padding()
         }
@@ -41,5 +43,5 @@ struct ActivityCard: View {
 }
 
 #Preview {
-    ActivityCard(activity: Activity(title: "Today steps", subtitle: "Goal 12,000", image: "figure.walk", tintColor: .green, amount: "9812"))
+    ActivityCard(activity: Activity(title: "Today steps", subtitle: "Goal 12,000", image: "figure.walk", tintColor: .green, amount: "9812 steps"))
 }

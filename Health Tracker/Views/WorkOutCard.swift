@@ -29,11 +29,12 @@ struct WorkOutCard: View {
                         .font(.title3)
                         .bold()
                     Spacer()
-                    Text(workout.duration)
+
+                    
                 }
                 
                 HStack {
-                    Text(workout.date)
+                    Text(workout.duration)
                     Spacer()
                     Text(workout.calories)
                 }
@@ -44,5 +45,5 @@ struct WorkOutCard: View {
 }
 
 #Preview {
-    WorkOutCard(workout: Workout(id: 0, title: "Running", image: "figure.run", tintColor: .cyan, duration: "51 mins", date: "Aug 3", calories: "570 kcal"))
+    WorkOutCard(workout: Workout(title: "Running", image: "figure.run", tintColor: .cyan, duration: "51 mins", date: "Aug 3", calories: "570 kcal"))
 }

@@ -15,12 +15,11 @@ class HomeViewModel: ObservableObject {
     @Published var steps: Int = 0
     
     @Published var activities = [Activity]()
-    
-    @Published var mockWorkouts = [
-        Workout(id: 0, title: "Running", image: "figure.run", tintColor: .cyan, duration: "51 mins", date: "Aug 3", calories: "570 kcal"),
-        Workout(id: 1, title: "Strength", image: "figure.run", tintColor: .red, duration: "51 mins", date: "Aug 1", calories: "570 kcal"),
-        Workout(id: 2, title: "Walking", image: "figure.walk", tintColor: .purple, duration: "51 mins", date: "Aug 2", calories: "570 kcal"),
-        Workout(id: 3, title: "Running", image: "figure.run", tintColor: .green, duration: "51 mins", date: "Aug 4", calories: "570 kcal")
+    @Published var workouts = [
+        Workout(title: "Running", image: "figure.run", tintColor: .cyan, duration: "51 mins", date: "Aug 3", calories: "570 kcal"),
+        Workout(title: "Strength", image: "figure.run", tintColor: .red, duration: "51 mins", date: "Aug 1", calories: "570 kcal"),
+        Workout(title: "Walking", image: "figure.walk", tintColor: .purple, duration: "51 mins", date: "Aug 2", calories: "570 kcal"),
+        Workout(title: "Basketball", image: "figure.run", tintColor: .green, duration: "51 mins", date: "Aug 4", calories: "570 kcal")
     ]
     
     init() {
@@ -33,6 +32,7 @@ class HomeViewModel: ObservableObject {
                 fetchTodaySteps()
                 fetchTodayExerciseTime()
                 fetchCurrentWeekActivities()
+                fetchRecentWorkouts()
                 
             } catch {
                 print(error.localizedDescription)
@@ -103,6 +103,19 @@ class HomeViewModel: ObservableObject {
             case .success(let act):
                 DispatchQueue.main.async {
                     self.activities.append(contentsOf: act)
+                }
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchRecentWorkouts() {
+        healthManager.fetchWkorkoutsForMonth(month: Date()) { result in
+            switch result {
+            case .success(let workouts):
+                DispatchQueue.main.async {
+                    self.workouts = Array(workouts.prefix(4))
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)
