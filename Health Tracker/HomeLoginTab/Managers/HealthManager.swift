@@ -129,8 +129,7 @@ class HealthManager {
                 completion(.failure(URLError(.badURL)))
                 return
             }
-            print(samples)
-            print(samples.map({$0.value}))
+            
             let standCount = samples.filter({$0.value == 0}).count
             
             completion(.success(standCount))
