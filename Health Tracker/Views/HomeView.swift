@@ -37,7 +37,7 @@ struct HomeView: View {
                             .padding(.bottom)
                             
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Active")
+                                Text("Active Hours")
                                     .font(.callout)
                                     .bold()
                                     .foregroundColor(.green)
@@ -48,12 +48,12 @@ struct HomeView: View {
                             .padding(.bottom)
                             
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Stand")
+                                Text("Steps")
                                     .font(.callout)
                                     .bold()
                                     .foregroundColor(.blue)
                                 
-                                Text("\(viewModel.standing)")
+                                Text("\(viewModel.steps)")
                                     .bold()
                             }
                             
@@ -62,10 +62,10 @@ struct HomeView: View {
                         Spacer()
                         
                         ZStack {
-                            ProgressCircleView(progress: $viewModel.calories, color: .red, goal: 600)
+                            ProgressCircleView(progress: $viewModel.calories, color: .red, goal: 2000)
                             ProgressCircleView(progress: $viewModel.active, color: .green, goal: 60)
                                 .padding(.all, 20)
-                            ProgressCircleView(progress: $viewModel.standing, color: .blue, goal: 100)
+                            ProgressCircleView(progress: $viewModel.steps, color: .blue, goal: 10000)
                                 .padding(.all, 40)
                         }
                         .padding(.horizontal)
@@ -92,13 +92,16 @@ struct HomeView: View {
                     }
                     .padding(.horizontal)
                     
-                    //Activities
-                    LazyVGrid(columns: Array(repeating: GridItem(spacing: 20), count: 2)) {
-                        ForEach(viewModel.mockActivities, id: \.id) { activity in
-                            ActivityCard(activity:activity)
+                    
+                    if !viewModel.activities.isEmpty {
+                        //Activities
+                        LazyVGrid(columns: Array(repeating: GridItem(spacing: 20), count: 2)) {
+                            ForEach(viewModel.activities, id: \.title) { activity in
+                                ActivityCard(activity:activity)
+                            }
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
                     
                     //Recent workouts
                     HStack {
