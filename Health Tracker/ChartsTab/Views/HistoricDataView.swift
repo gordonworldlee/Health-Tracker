@@ -26,7 +26,7 @@ struct HistoricDataView: View {
                     VStack {
                         ChartDataView(average: viewModel.oneWeekAverage, total: viewModel.oneWeekTotal)
                         Chart {
-                            ForEach(viewModel.mockChartData) { data in
+                            ForEach(viewModel.oneWeekChartData) { data in
                                 BarMark(x: .value(data.date.formatted(), data.date, unit: .day), y: .value("Steps", data.count))
                             }
                         }
@@ -36,7 +36,7 @@ struct HistoricDataView: View {
                     VStack {
                         ChartDataView(average: viewModel.oneMonthAverage, total: viewModel.oneMonthTotal)
                         Chart {
-                            ForEach(viewModel.mockOneMonthData) { data in
+                            ForEach(viewModel.oneMonthChartData) { data in
                                 BarMark(x: .value(data.date.formatted(), data.date, unit: .day), y: .value("Steps", data.count))
                                 
                             }
@@ -46,7 +46,7 @@ struct HistoricDataView: View {
                     VStack {
                         ChartDataView(average: viewModel.threeMonthAverage, total: viewModel.threeMonthTotal)
                         Chart {
-                            ForEach(viewModel.mockChartData) { data in
+                            ForEach(viewModel.threeMonthChartData) { data in
                                 BarMark(x: .value(data.date.formatted(), data.date, unit: .day), y: .value("Steps", data.count))
                                 
                             }

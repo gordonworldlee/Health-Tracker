@@ -69,12 +69,15 @@ class ChartsViewModel: ObservableObject {
         
     ]
     
-    @Published var oneWeekAverage = 1234234
-    @Published var oneWeekTotal = 7000
+    @Published var oneWeekChartData = [DailyStepModel]()
+    @Published var oneWeekAverage = 0
+    @Published var oneWeekTotal = 0
     
-    @Published var oneMonthAverage = 69
-    @Published var oneMonthTotal = 69
+    @Published var oneMonthChartData = [DailyStepModel]()
+    @Published var oneMonthAverage = 0
+    @Published var oneMonthTotal = 0
     
+    @Published var threeMonthChartData = [MonthlyStepModel]()
     @Published var threeMonthAverage = 10
     @Published var threeMonthTotal = 10
     
@@ -89,6 +92,9 @@ class ChartsViewModel: ObservableObject {
     
     init() {
         fetchYTDAndOneYearChartData()
+        fetchOneMonthData()
+        fetchOneWeekData()
+        fetchThreeMonthData()
     }
     func fetchYTDAndOneYearChartData() {
         healthManager.fetchYTDAndOneYearChartData { result in
@@ -111,5 +117,60 @@ class ChartsViewModel: ObservableObject {
             
         }
     }
+    
+    
+    func fetchOneMonthData() {
+        healthManager.fetchOneMonthChartData { result in
+            switch result {
+            case .success(let dailySteps):
+                DispatchQueue.main.async {
+                    self.oneMonthChartData = dailySteps
+                    
+                    self.oneMonthTotal = self.oneMonthChartData.reduce(0, { $0 + $1.count })
+                    self.oneMonthAverage = self.oneMonthTotal / self.oneMonthChartData.count
+                }
+                
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
+    
+    func fetchOneWeekData() {
+        healthManager.fetchOneWeekChartData { result in
+            switch result {
+            case .success(let dailySteps):
+                DispatchQueue.main.async {
+                    self.oneWeekChartData = dailySteps
+                    
+                    self.oneWeekTotal = self.oneWeekChartData.reduce(0, { $0 + $1.count })
+                    self.oneWeekAverage = self.oneWeekTotal / 7
+                }
+                
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+
+    func fetchThreeMonthData() {
+        healthManager.fetchThreeMonthChartData { result in
+            switch result {
+            case .success(let dailySteps):
+                DispatchQueue.main.async {
+                    self.threeMonthChartData = dailySteps
+                    
+                    self.threeMonthTotal = self.threeMonthChartData.reduce(0, { $0 + $1.count })
+                    self.threeMonthAverage = self.threeMonthTotal / 90
+                }
+                
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+
+
 
 }

@@ -262,4 +262,98 @@ extension HealthManager {
             healthStore.execute(query)
         }
     }
+    
+    func fetchOneMonthChartData(completion: @escaping (Result<[DailyStepModel], Error>) -> Void) {
+        let steps = HKQuantityType(.stepCount)
+        let calendar = Calendar.current
+        
+        var dailySteps = [DailyStepModel]()
+        let daysInMonth = calendar.range(of: .day, in: .month, for: Date())?.count ?? 30
+        
+        for i in 0..<daysInMonth {
+            let day = calendar.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+            let startOfDay = calendar.startOfDay(for: day)
+            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? day
+            
+            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: endOfDay)
+            
+            let query = HKStatisticsQuery(quantityType: steps, quantitySamplePredicate: predicate) { _, results, error in
+                guard let steps = results?.sumQuantity()?.doubleValue(for: .count()), error == nil else {
+                    completion(.failure(URLError(.badURL)))
+                    return
+                }
+                
+                dailySteps.append(DailyStepModel(date: day, count: Int(steps)))
+                
+                if i == daysInMonth - 1 {
+                    let sortedSteps = dailySteps.sorted { $0.date < $1.date }
+                    completion(.success(sortedSteps))
+                }
+            }
+            healthStore.execute(query)
+        }
+    }
+    
+    func fetchOneWeekChartData(completion: @escaping (Result<[DailyStepModel], Error>) -> Void) {
+        let steps = HKQuantityType(.stepCount)
+        let calendar = Calendar.current
+        
+        var dailySteps = [DailyStepModel]()
+        
+        for i in 0..<7 {
+            let day = calendar.date(byAdding: .day, value: -i, to: Date()) ?? Date()
+            let startOfDay = calendar.startOfDay(for: day)
+            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? day
+            
+            let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: endOfDay)
+            
+            let query = HKStatisticsQuery(quantityType: steps, quantitySamplePredicate: predicate) { _, results, error in
+                guard let steps = results?.sumQuantity()?.doubleValue(for: .count()), error == nil else {
+                    completion(.failure(URLError(.badURL)))
+                    return
+                }
+                
+                dailySteps.append(DailyStepModel(date: day, count: Int(steps)))
+                
+                if i == 6 {
+                    let sortedSteps = dailySteps.sorted { $0.date < $1.date }
+                    completion(.success(sortedSteps))
+                }
+            }
+            healthStore.execute(query)
+        }
+    }
+
+    
+    func fetchThreeMonthChartData(completion: @escaping (Result<[MonthlyStepModel], Error>) -> Void) {
+        let steps = HKQuantityType(.stepCount)
+        let calendar = Calendar.current
+        
+        var monthlySteps = [MonthlyStepModel]()
+        let totalMonths = 3
+        
+        for i in 0..<totalMonths {
+            let month = calendar.date(byAdding: .month, value: -i, to: Date()) ?? Date()
+            let (startOfMonth, endOfMonth) = month.fetchMontStartAndENdDate()
+            let predicate = HKQuery.predicateForSamples(withStart: startOfMonth, end: endOfMonth)
+            
+            let query = HKStatisticsQuery(quantityType: steps, quantitySamplePredicate: predicate) { _, results, error in
+                guard let steps = results?.sumQuantity()?.doubleValue(for: .count()), error == nil else {
+                    completion(.failure(URLError(.badURL)))
+                    return
+                }
+                
+                monthlySteps.append(MonthlyStepModel(date: month, count: Int(steps)))
+                
+                if i == totalMonths - 1 {
+                    let sortedSteps = monthlySteps.sorted { $0.date < $1.date }
+                    completion(.success(sortedSteps))
+                }
+            }
+            healthStore.execute(query)
+        }
+    }
+
+
+
 }
