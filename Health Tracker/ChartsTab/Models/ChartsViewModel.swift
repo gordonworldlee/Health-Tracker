@@ -8,6 +8,7 @@
 import Foundation
 
 class ChartsViewModel: ObservableObject {
+    let healthManager = HealthManager.shared
     var mockChartData = [
         
         DailyStepModel(date: Date(), count: 12315),
@@ -77,10 +78,38 @@ class ChartsViewModel: ObservableObject {
     @Published var threeMonthAverage = 10
     @Published var threeMonthTotal = 10
     
-    @Published var YTDAverage = 20
-    @Published var YTDTotal = 20
+    @Published var YTDChartData = [MonthlyStepModel]()
+    @Published var YTDAverage = 0
+    @Published var YTDTotal = 0
     
-    @Published var oneYearAverage = 30
-    @Published var oneYearTotal = 30
+    @Published var oneYearChartData = [MonthlyStepModel]()
+    @Published var oneYearAverage = 0
+    @Published var oneYearTotal = 0
+    
+    
+    init() {
+        fetchYTDAndOneYearChartData()
+    }
+    func fetchYTDAndOneYearChartData() {
+        healthManager.fetchYTDAndOneYearChartData { result in
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    self.YTDChartData = result.ytd
+                    self.oneYearChartData = result.oneYear
+                    
+                    self.YTDTotal = self.YTDChartData.reduce(0, {$0 + $1.count})
+                    self.oneYearTotal = self.oneYearChartData.reduce(0, {$0 + $1.count})
+                    
+                    self.YTDAverage = self.YTDTotal / Calendar.current.component(.month, from: Date())
+                    self.oneYearAverage = self.oneYearTotal  / 12
+                }
+                
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+            
+        }
+    }
 
 }
