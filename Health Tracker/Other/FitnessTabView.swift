@@ -43,6 +43,13 @@ struct FitnessTabView: View {
                         Text("Notes")
                     }
                 
+                ProfileView()
+                    .tag("Profile")
+                    .tabItem {
+                        Image(systemName: "person.crop.circle")
+                        Text("Profile")
+                    }
+                
                 
             }
         } else {
