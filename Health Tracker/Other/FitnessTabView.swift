@@ -35,6 +35,15 @@ struct FitnessTabView: View {
                         
                         Text("Charts")
                     }
+                
+                NotesListView(userId: viewModel.currentUserId)
+                    .tag("Notes")
+                    .tabItem {
+                        Image(systemName: "pencil.and.list.clipboard")
+                        Text("Notes")
+                    }
+                
+                
             }
         } else {
             LoginView()
