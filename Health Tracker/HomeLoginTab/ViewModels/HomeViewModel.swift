@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class HomeViewModel: ObservableObject {
     let healthManager = HealthManager.shared
@@ -14,6 +15,8 @@ class HomeViewModel: ObservableObject {
     @Published var standing: Int = 0
     @Published var steps: Int = 0
     
+    
+    
     @Published var activities = [Activity]()
     @Published var workouts = [
         Workout(title: "Running", image: "figure.run", tintColor: .cyan, duration: "51 mins", date: "Aug 3", calories: "570 kcal"),
@@ -21,6 +24,8 @@ class HomeViewModel: ObservableObject {
         Workout(title: "Walking", image: "figure.walk", tintColor: .purple, duration: "51 mins", date: "Aug 2", calories: "570 kcal"),
         Workout(title: "Basketball", image: "figure.run", tintColor: .green, duration: "51 mins", date: "Aug 4", calories: "570 kcal")
     ]
+    
+    
     
     init() {
         Task {

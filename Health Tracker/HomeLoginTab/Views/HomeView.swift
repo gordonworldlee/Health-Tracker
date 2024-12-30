@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct HomeView: View {
 
     
     @StateObject var viewModel = HomeViewModel()
-    
+    @AppStorage("calories", store: UserDefaults(suiteName: "group.gordon.Health-Tracker")) var kcal = 0
     
     var body: some View {
         NavigationStack {
@@ -33,6 +34,7 @@ struct HomeView: View {
                                 
                                 Text("\(viewModel.calories)")
                                     .bold()
+                                
                             }
                             .padding(.bottom)
                             
@@ -44,6 +46,7 @@ struct HomeView: View {
                                 
                                 Text("\(viewModel.active)")
                                     .bold()
+                                
                             }
                             .padding(.bottom)
                             
@@ -131,6 +134,10 @@ struct HomeView: View {
                     
                 }
             }
+        }
+        .onAppear {
+            kcal = viewModel.calories
+            WidgetCenter.shared.reloadTimelines(ofKind: "FitnessWidget")
         }
         
         

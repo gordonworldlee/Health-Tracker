@@ -24,7 +24,6 @@ struct ProgressCircleView: View {
                 .stroke(color, style: StrokeStyle(lineWidth: width, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .shadow(radius: 5)
-            
         }
     }
 }
