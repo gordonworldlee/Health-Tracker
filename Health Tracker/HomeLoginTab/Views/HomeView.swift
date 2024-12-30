@@ -11,9 +11,7 @@ import WidgetKit
 struct HomeView: View {
 
     
-    @StateObject var viewModel = HomeViewModel()
-    @AppStorage("calories", store: UserDefaults(suiteName: "group.gordon.Health-Tracker")) var kcal = 0
-    
+    @StateObject var viewModel = HomeViewModel() 
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
@@ -136,7 +134,8 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            kcal = viewModel.calories
+            let userDefaults = UserDefaults(suiteName: "group.gordon.Health-Tracker")
+            userDefaults?.setValue(viewModel.calories, forKey: "text")
             WidgetCenter.shared.reloadTimelines(ofKind: "FitnessWidget")
         }
         
